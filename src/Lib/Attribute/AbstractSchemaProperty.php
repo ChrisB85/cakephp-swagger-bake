@@ -42,6 +42,7 @@ abstract class AbstractSchemaProperty
      * @param int|null $maxProperties See OpenAPI documentation
      * @param array $enum An enumerated list of values that can be accepted
      * @param array $items For use with array type only, will be ignored otherwise. See OpenAPI documentation for
+     * @param string|null $ref A reference to a schema
      *  setting items on array properties.
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -72,7 +73,8 @@ abstract class AbstractSchemaProperty
         public readonly ?int $minProperties = null,
         public readonly ?int $maxProperties = null,
         public readonly array $enum = [],
-        public readonly array $items = []
+        public readonly array $items = [],
+        public readonly ?string $ref = null
     ) {
     }
 
@@ -91,7 +93,8 @@ abstract class AbstractSchemaProperty
             ->setReadOnly($this->isReadOnly)
             ->setWriteOnly($this->isWriteOnly)
             ->setRequired($this->isRequired)
-            ->setEnum($this->enum ?? []);
+            ->setEnum($this->enum ?? [])
+            ->setRefEntity($this->ref);
 
         if ($schemaProperty->getType() === 'array') {
             $schemaProperty->setItems($this->items ?? []);
